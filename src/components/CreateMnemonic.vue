@@ -1,21 +1,31 @@
 <template>
   <div>
-    <!-- Create a new mnemonic with explanation of what it is and how to store it -->
+    <p>Click the button below to create a mnemonic. Once created, record it on paper or another secure location.</p>
+    <p>{{mnemonic}}</p>
+    <button @click="createMnemonic">Create Mnemonic</button>
+    <button @click="save">Save</button>
   </div>
 </template>
 
 <script>
 import * as bip39 from "bip39";
+import { CreateWalletSteps } from "./CreateWalletSteps";
 
 export default {
+  data() {
+    return {
+      mnemonic: ""
+    };
+  },
   methods: {
-    /**
-     * Generates a new mnemonic
-     */
-    generateMnemonic() {
-      // This needs more work on entropy and settings
-      // TODO: show mnemonic temporarily, do not store
-      return bip39.generateMnemonic();
+    save() {
+      this.$store.state.mnemonic = this.mnemonic;
+      this.$emit("create-wallet-event", CreateWalletSteps.CHALLENGE_MNEMONIC);
+    },
+
+    async createMnemonic() {
+      // TODO: Determine optimum settings (entropy etc)
+      this.mnemonic = await bip39.generateMnemonic();
     }
   }
 };

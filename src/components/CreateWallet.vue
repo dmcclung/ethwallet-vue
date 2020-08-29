@@ -11,7 +11,14 @@ import MnemonicChooser from "@/components/MnemonicChooser";
 import ChallengeMnemonic from "@/components/ChallengeMnemonic";
 import SetKeyStorePassword from "@/components/SetKeyStorePassword";
 
-import { CreateWalletEvents } from "../events.js";
+import { CreateWalletSteps } from "./CreateWalletSteps.js";
+
+const keyedComponents = new Map();
+keyedComponents.set(CreateWalletSteps.MNEMONIC_CHOOSER, MnemonicChooser);
+keyedComponents.set(CreateWalletSteps.CREATE_MNEMONIC, CreateMnemonic);
+keyedComponents.set(CreateWalletSteps.IMPORT_MNEMONIC, ImportMnemonic);
+keyedComponents.set(CreateWalletSteps.CHALLENGE_MNEMONIC, ChallengeMnemonic);
+keyedComponents.set(CreateWalletSteps.SET_KEYSTORE_PASSWORD, SetKeyStorePassword);
 
 // MnemonicChooser -> CreateMnemonic -> ChallengeMnemonic -> SetKeyStorePassword
 //                 -> ImportMnemonic -> SetKeyStorePassword
@@ -19,27 +26,20 @@ import { CreateWalletEvents } from "../events.js";
 export default {
   data() {
     return {
-      currentStep: MnemonicChooser
+      currentStep: CreateWalletSteps.MNEMONIC_CHOOSER
     };
   },
   methods: {
     onCreateWalletEvent(type) {
-      if (type === CreateWalletEvents.CREATE_MNEMONIC) {
-        this.currentStep = CreateMnemonic;
-      } else if (type === CreateWalletEvents.IMPORT_MNEMONIC) {
-        this.currentStep = ImportMnemonic;
-      } else if (type === CreateWalletEvents.CHALLENGE_MNEMONIC) {
-        this.currentStep = ChallengeMnemonic;
-      } else if (type === CreateWalletEvents.SET_KEYSTORE_PASSWORD) {
-        this.currentStep = SetKeyStorePassword;
-      } else {
-        throw new Error(`Unknown create-wallet-event type: ${type}`);
+      if (!keyedComponents.has(type)) {
+        throw new Error(`Unknown type: ${type}`);
       }
+      this.currentStep = type;
     }
   },
   computed: {
     currentStepComponent() {
-      return this.currentStep;
+      return keyedComponents.get(this.currentStep);
     }
   }
 };

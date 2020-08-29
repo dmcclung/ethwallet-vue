@@ -10,27 +10,27 @@
     </p>
     <div>
       <p>Click this button to create a new mnemonic and wallet</p>
-      <button @click="createEvent">Create wallet</button>
+      <button @click="emitCreate">Create wallet</button>
     </div>
     <div>
       <p>Or recreate your wallet from a mnemonic that you recorded previously.</p>
       <p>This wallet could have been created outside this application.</p>
-      <button @click="importEvent">Import wallet</button>
+      <button @click="emitImport">Import wallet</button>
     </div>
   </div>
 </template>
 
 <script>
-import { CreateWalletEvents } from "../events.js";
+import { CreateWalletSteps } from "./CreateWalletSteps.js";
 
 export default {
   methods: {
-    importEvent() {
-      this.$emit("create-wallet-event", CreateWalletEvents.IMPORT_MNEMONIC);
+    emitImport() {
+      this.$emit("create-wallet-event", CreateWalletSteps.IMPORT_MNEMONIC);
     },
 
-    createEvent() {
-      this.$emit("create-wallet-event", CreateWalletEvents.CREATE_MNEMONIC);
+    emitCreate() {
+      this.$emit("create-wallet-event", CreateWalletSteps.CREATE_MNEMONIC);
     }
   }
 };

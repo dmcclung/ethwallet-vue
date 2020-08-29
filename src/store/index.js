@@ -11,7 +11,12 @@ export default createStore({
     /**
      * Encrypted keystore string
      */
-    v3KeyStore: null
+    v3KeyStore: null,
+
+    /**
+     * BIP39 Mnemonic word list
+     */
+    mnemonic: ""
   },
   mutations: {},
   actions: {},

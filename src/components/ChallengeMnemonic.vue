@@ -18,8 +18,21 @@ export default {
   },
   methods: {
     challenge() {
-      if (this.challengeMnemonic === this.$store.state.mnemonic) {
-          this.$emit('create-wallet-event', CreateWalletSteps.SET_KEYSTORE_PASSWORD);
+      const modified = this.challengeMnemonic
+        .trim()
+        .split(" ")
+        .join(" ");
+      console.log(`modified: ${modified}`);
+      console.log(`original: ${this.challengeMnemonic}`);
+      if (modified === this.$store.state.mnemonic) {
+        this.$emit(
+          "create-wallet-event",
+          CreateWalletSteps.SET_KEYSTORE_PASSWORD
+        );
+      } else {
+        // TODO: use error notification
+        // mnemonic needs to be stored as an array of words
+        throw Error("Challenge failed");
       }
     }
   },

@@ -1,8 +1,12 @@
 <template>
   <div>
+    <p>gas price: {{gasPrice}}</p>
+    <p>
     <div>
       <input v-model="receiverAddress" placeholder="Receiver Address" />
       <input v-model="value" placeholder="Value" />
+      <input v-model="data" placeholder="Data" />
+      <input v-model="gasLimit" placeholder="Gas Limit" />
       <button @click="sendEth">Send Eth</button>
     </div>
   </div>
@@ -23,25 +27,48 @@ export default {
       /**
        * Value to be sent in current eth transaction
        */
-      value: "0"
+      value: "0",
+
+      /**
+       * Hex encoded string data to send in current eth transaction
+       */
+      data: "",
+
+      /**
+       * Gas limit
+       */
+      gasLimit: "",
+
+      /**
+       * Gas price
+       */
+      gasPrice: ""
     };
+  },
+  created() {
+      const updateGasPrice = async () => {
+          this.gasPrice = await this.web3.eth.getGasPrice();
+      };
+      updateGasPrice();
   },
   methods: {
     async sendEth() {
+      // TODO: how do we track nonce?      
       const txParams = {
-        nonce: "0x00",
-        gasPrice: "0x09184e72a000",
-        gasLimit: "0x2710",
+        nonce: this.web3.utils.utf8ToHex(`${this.$store.state.nonce}`),
+        gasPrice: this.web3.utils.utf8ToHex(this.gasPrice),
+        gasLimit: this.web3.utils.utf8ToHex(this.gasLimit),
         to: this.receiverAddress,
-        value: this.value,
-        data:
-          "0x7f7465737432000000000000000000000000000000000000000000000000000000600057"
+        value: this.web3.utils.utf8ToHex(this.value),
+        data: this.web3.utils.utf8ToHex(this.data)
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });
       tx.sign(this.wallet.getPrivateKey());
       const serializedTx = tx.serialize();
       this.web3.eth.sendTransaction(serializedTx);
+
+      this.$store.state.nonce = this.$store.state.nonce + 1;
     }
   }
 };

@@ -16,7 +16,12 @@ export default createStore({
     /**
      * BIP39 Mnemonic word list
      */
-    mnemonic: ""
+    mnemonic: "",
+
+    /**
+     * Nonce
+     */
+    nonce: 0
   },
   mutations: {},
   actions: {},

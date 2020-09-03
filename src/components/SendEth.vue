@@ -1,7 +1,6 @@
 <template>
   <div>
-    <p>gas price: {{gasPrice}}</p>
-    <p>
+    <p>gas price: {{ gasPrice }}</p>
     <div>
       <input v-model="receiverAddress" placeholder="Receiver Address" />
       <input v-model="value" placeholder="Value" />
@@ -14,9 +13,16 @@
 
 <script>
 import { Transaction as EthTx } from "ethereumjs-tx";
+import { Wallet } from "ethereumjs-wallet";
+import { Web3 } from "web3";
 
 export default {
-  props: ["web3", "wallet", "chain"],
+  name: "send-eth",
+  props: {
+    web3: Web3,
+    wallet: Wallet,
+    chain: String
+  },
   data() {
     return {
       /**
@@ -25,12 +31,12 @@ export default {
       receiverAddress: null,
 
       /**
-       * Value to be sent in current eth transaction
+       * Wei value to be sent in current eth transaction 
        */
       value: "0",
 
       /**
-       * Hex encoded string data to send in current eth transaction
+       * String data to send in current eth transaction
        */
       data: "",
 
@@ -45,22 +51,39 @@ export default {
       gasPrice: ""
     };
   },
-  created() {
-      const updateGasPrice = async () => {
-          this.gasPrice = await this.web3.eth.getGasPrice();
-      };
-      updateGasPrice();
+  mounted() {
+    const updateGasPrice = async () => {
+      this.gasPrice = await this.web3.eth.getGasPrice();
+    };
+    updateGasPrice();
   },
   methods: {
     async sendEth() {
-      // TODO: how do we track nonce?      
+      // you probably don't need a requirement for gas price
+      // only specify gas price if user wants to pay more or less
+      if (this.gasPrice === "") {
+        throw new Error("Need gas price to send eth");
+      }
+
+      if (this.receiverAddress === null) {
+        throw new Error("Receiver address required");
+      }
+
+      
+
+      const hex = (txParam) => {
+        return this.web3.utils.utf8ToHex(txParam);
+      };
+
+      // contract creation is not supported, so we require a 'to'
+
       const txParams = {
-        nonce: this.web3.utils.utf8ToHex(`${this.$store.state.nonce}`),
-        gasPrice: this.web3.utils.utf8ToHex(this.gasPrice),
-        gasLimit: this.web3.utils.utf8ToHex(this.gasLimit),
+        nonce: hex(`${this.$store.state.nonce}`),
+        gasPrice: hex(this.gasPrice),
+        gasLimit: hex(this.gasLimit),
         to: this.receiverAddress,
-        value: this.web3.utils.utf8ToHex(this.value),
-        data: this.web3.utils.utf8ToHex(this.data)
+        value: hex(this.value),
+        data: hex(this.data)
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });

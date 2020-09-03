@@ -1,9 +1,10 @@
 <template>
   <div>
-    <!-- ask user to re enter words to make sure they have the mnemonic correct -->
     <p>Enter the mnemonic from the previous step.</p>
-    <textarea v-model="challengeMnemonic" />
-    <button @click="challenge">Challenge</button>
+    <textarea class="textarea-style" v-model="challengeMnemonic" />
+  </div>
+  <div>
+    <button class="button-style" @click="challenge">Challenge</button>
   </div>
 </template>
 

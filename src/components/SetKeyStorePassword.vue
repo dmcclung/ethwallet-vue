@@ -4,7 +4,7 @@
     <!-- password type needed for input -->
     <p>Enter keystore password</p>
     <input v-model="password" />
-    <button @click="createHdWallet">Create HD wallet</button>
+    <button class="button-style" @click="createHdWallet">Create HD wallet</button>
   </div>
 </template>
 

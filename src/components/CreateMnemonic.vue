@@ -1,9 +1,9 @@
 <template>
   <div>
-    <p>Click the button below to create a mnemonic. Once created, record it on paper or another secure location.</p>
-    <p>{{mnemonic}}</p>
-    <button @click="createMnemonic">Create Mnemonic</button>
-    <button @click="save">Save</button>
+    <p class="text-style">Click the button below to create a mnemonic. Once created, record it on paper or another secure location.</p>
+    <p class="text-style">{{mnemonic}}</p>
+    <button class="button-style" @click="createMnemonic">Create Mnemonic</button>
+    <button class="button-style" @click="save">Save</button>
   </div>
 </template>
 

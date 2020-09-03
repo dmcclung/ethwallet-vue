@@ -9,32 +9,33 @@
     see button to send money-->
     <p>Address {{ address }}</p>
     <p>Balance {{ balance }}</p>
-    <button @click="lockWallet">Lock wallet</button>
-    <SendEth :web3="web3" :chain="ropsten" :wallet="$store.state.wallet" />
+    <button class="button-style" @click="lockWallet">Lock wallet</button>
+    <send-eth :web3="web3" chain="ropsten" :wallet="$store.state.wallet" />
   </div>
 </template>
 
 <script>
 import SendEth from "@/components/SendEth";
-
 import Web3 from "web3";
-const web3 = new Web3(
-  "wss://ropsten.infura.io/ws/v3/8ecfbe01aa934fbd91737cb5be95623a"
-);
 
 let intervalId;
 
 export default {
-  components: [SendEth],
+  components: {
+    SendEth
+  },
   data() {
     return {
       balance: "0",
-      address: this.$store.state.wallet.getAddressString()
+      address: this.$store.state.wallet.getAddressString(),
+      web3: new Web3(
+        "wss://ropsten.infura.io/ws/v3/8ecfbe01aa934fbd91737cb5be95623a"
+      )
     };
   },
   mounted() {
     intervalId = setInterval(async () => {
-      this.balance = await web3.eth.getBalance(this.address);
+      this.balance = await this.web3.eth.getBalance(this.address);
     }, 5000);
   },
   unmounted() {

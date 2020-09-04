@@ -2,9 +2,11 @@
   <div>
     <!-- Prompt for password to secure keystore, if password is successful, create wallet -->
     <!-- password type needed for input -->
-    <p>Enter keystore password</p>
-    <input v-model="password" />
-    <button class="button-style" @click="createHdWallet">Create HD wallet</button>
+    <p class="action-text">Enter keystore password</p>
+    <input class="passwordinput-style" v-model="password" type="password" />
+    <button class="button-style" @click="createHdWallet">
+      Create HD wallet
+    </button>
   </div>
 </template>
 

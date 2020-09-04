@@ -6,7 +6,7 @@
       <input v-model="value" placeholder="Value" />
       <input v-model="data" placeholder="Data" />
       <input v-model="gasLimit" placeholder="Gas Limit" />
-      <button @click="sendEth">Send Eth</button>
+      <button class="button-style" @click="sendEth">Send</button>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
       receiverAddress: null,
 
       /**
-       * Wei value to be sent in current eth transaction 
+       * Wei value to be sent in current eth transaction
        */
       value: "0",
 
@@ -69,9 +69,7 @@ export default {
         throw new Error("Receiver address required");
       }
 
-      
-
-      const hex = (txParam) => {
+      const hex = txParam => {
         return this.web3.utils.utf8ToHex(txParam);
       };
 

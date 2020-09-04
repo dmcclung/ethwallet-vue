@@ -49,7 +49,25 @@ export default {
   );
 }
 
-.text-style {
+.code-text {
+  display: block;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.box-style {
+  display: flex;
+  box-sizing: border-box;
+  background: rgb(255, 255, 255);
+  color: rgb(15, 42, 67);
+  border: 1px solid rgb(221, 221, 221);
+  max-width: 100%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 6px;
+}
+
+.descriptive-text {
   font-family: "Maison Neue", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Helvetica, Arial, sans-serif;
   font-style: normal;
@@ -62,8 +80,7 @@ export default {
 }
 
 .textarea-style {
-  font-size: 18px;
-  line-height: 24px;
+  line-height: 26px;
   width: 500px;
   height: 110px;
   color: rgb(68, 68, 68);
@@ -78,6 +95,26 @@ export default {
   border-image: initial;
   border-right: none;
   display: inline-flex;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.passwordinput-style {
+  line-height: 12px;
+  width: 200px;
+  height: 50px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  background-color: rgb(253, 252, 254);
+  border-radius: 3px 0px 0px 3px;
+  appearance: textfield;
+  border-top: 1px solid rgb(221, 221, 221);
+  border-bottom: 1px solid rgb(221, 221, 221);
+  border-left: 1px solid rgb(221, 221, 221);
+  border-image: initial;
+  border-right: none;
+  display: inline-flex;
+  font-size: 12px;
 }
 
 .button-style {
@@ -94,6 +131,18 @@ export default {
   width: 300px;
   font-size: 18px;
   margin: 10px;
+}
+
+.action-text {
+  font-family: "Maison Neue", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-style: normal;
+  letter-spacing: normal;
+  color: rgb(15, 42, 67);
+  margin: 0px;
+  display: block;
 }
 
 #nav {

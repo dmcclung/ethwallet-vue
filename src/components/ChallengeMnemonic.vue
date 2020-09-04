@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Enter the mnemonic from the previous step.</p>
+    <p class="action-text">Enter the mnemonic from the previous step.</p>
     <textarea class="textarea-style" v-model="challengeMnemonic" />
   </div>
   <div>

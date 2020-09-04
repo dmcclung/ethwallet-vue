@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- prompt for password to unlock -->
-    <input v-model="password" />
-    <button v-on:click="unlockWallet">Unlock</button>
+    <input class="passwordinput-style" v-model="password" type="password" />
+    <button class="button-style" @click="unlockWallet">Unlock</button>
   </div>
 </template>
 

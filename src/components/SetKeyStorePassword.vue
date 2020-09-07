@@ -1,12 +1,14 @@
 <template>
   <div>
-    <!-- Prompt for password to secure keystore, if password is successful, create wallet -->
-    <!-- password type needed for input -->
-    <p class="action-text">Enter keystore password</p>
-    <input class="passwordinput-style" v-model="password" type="password" />
-    <button class="button-style" @click="createHdWallet">
-      Create HD wallet
-    </button>
+    <div>
+      <p class="action-text">Enter keystore password</p>
+      <input class="passwordinput-style" v-model="password" type="password" />
+    </div>
+    <div>
+      <button class="button-style" @click="createHdWallet">
+        Create HD wallet
+      </button>
+    </div>
   </div>
 </template>
 
@@ -22,12 +24,15 @@ export default {
   },
   methods: {
     async createHdWallet() {
-      const seed = await bip39.mnemonicToSeed(this.$store.state.mnemonic);
-      const hdkey = HDKey.fromMasterSeed(seed);
-      this.$store.state.wallet = hdkey.getWallet();
-      this.$store.state.v3KeyStore = this.$store.state.wallet.toV3String(
+      const seed = await bip39.mnemonicToSeed(
+        this.$store.state.mnemonic,
         this.password
       );
+      const hdkey = HDKey.fromMasterSeed(seed);
+      const hdWallet = hdkey.getWallet();
+      const keystore = await hdWallet.toV3(this.password, { kdf: "pbkdf2" });
+      this.$store.commit({ type: "setWallet", wallet: hdWallet });
+      this.$store.commit({ type: "setKeystore", keystore: keystore });
     }
   }
 };

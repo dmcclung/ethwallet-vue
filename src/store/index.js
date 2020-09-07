@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 
 export default createStore({
+  strict: true,
   state: {
     /**
      * Wallet provided by ethereumjs-wallet, if created with this app,
@@ -14,16 +15,29 @@ export default createStore({
     v3KeyStore: null,
 
     /**
-     * BIP39 Mnemonic word list
+     * BIP39 Mnemonic word list, this is only needed during mnemonic creation
      */
-    mnemonic: "",
-
-    /**
-     * Nonce
-     */
-    nonce: 0
+    mnemonic: ""
   },
-  mutations: {},
+  mutations: {
+    setKeystore(state, payload) {
+      state.v3KeyStore = payload.keystore;
+    },
+    setWallet(state, payload) {
+      console.log(`Called setwallet ${payload.wallet.getAddressString()}`);
+      state.wallet = payload.wallet;
+      console.log(`state.wallet ${state.wallet.getAddressString()}`);
+    },
+    setMnemonic(state, payload) {
+      state.mnemonic = payload.mnemonic;
+    },
+    clearMnemonic(state) {
+      state.mnemonic = "";
+    },
+    lockWallet(state) {
+      state.wallet = null;
+    }
+  },
   actions: {},
   modules: {}
 });

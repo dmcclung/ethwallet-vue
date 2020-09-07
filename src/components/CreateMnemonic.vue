@@ -19,6 +19,7 @@ import * as bip39 from "bip39";
 import { CreateWalletSteps } from "./CreateWalletSteps";
 
 export default {
+  emits: ["create-wallet-event"],
   data() {
     return {
       mnemonic: ""
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     save() {
-      this.$store.state.mnemonic = this.mnemonic;
+      this.$store.commit({ type: "setMnemonic", mnemonic: this.mnemonic });
       this.$emit("create-wallet-event", CreateWalletSteps.CHALLENGE_MNEMONIC);
     },
 

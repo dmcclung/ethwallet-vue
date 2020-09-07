@@ -74,7 +74,7 @@ export default {
       };
 
       // contract creation is not supported, so we require a 'to'
-
+      // TODO: how to track nonce
       const txParams = {
         nonce: hex(`${this.$store.state.nonce}`),
         gasPrice: hex(this.gasPrice),
@@ -88,8 +88,6 @@ export default {
       tx.sign(this.wallet.getPrivateKey());
       const serializedTx = tx.serialize();
       this.web3.eth.sendTransaction(serializedTx);
-
-      this.$store.state.nonce = this.$store.state.nonce + 1;
     }
   }
 };

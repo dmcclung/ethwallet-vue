@@ -49,6 +49,14 @@ export default {
   );
 }
 
+.error {
+  color: #d8000c;
+  background-color: #ffd2d2;
+  margin: 10px 22px;
+  font-size: 2em;
+  vertical-align: middle;
+}
+
 .code-text {
   display: block;
   font-family: monospace;
@@ -100,8 +108,8 @@ export default {
 }
 
 .passwordinput-style {
-  line-height: 12px;
-  width: 200px;
+  line-height: 20px;
+  width: 400px;
   height: 50px;
   padding-left: 10px;
   box-sizing: border-box;
@@ -114,7 +122,7 @@ export default {
   border-image: initial;
   border-right: none;
   display: inline-flex;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .button-style {

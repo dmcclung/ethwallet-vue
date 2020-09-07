@@ -1,21 +1,33 @@
 <template>
   <div>
-    <!-- prompt for password to unlock -->
-    <input class="passwordinput-style" v-model="password" type="password" />
-    <button class="button-style" @click="unlockWallet">Unlock</button>
+    <div v-if="error" class="error">{{ error }}</div>
+    <div>
+      <input class="passwordinput-style" v-model="password" type="password" />
+    </div>
+    <div>
+      <button class="button-style" @click="unlockWallet">Unlock</button>
+    </div>
   </div>
 </template>
 
 <script>
+import Wallet from "ethereumjs-wallet";
+
 export default {
   data() {
     return {
-      password: ""
+      password: "",
+      error: ""
     };
   },
   methods: {
-    unlockWallet() {
-      this.$state.store.wallet = this.$state.store.v3KeyStore(this.password);
+    async unlockWallet() {
+      console.log(`${this.$store.state.v3KeyStore}`);
+      const wallet = await Wallet.fromV3(
+        this.$store.state.v3KeyStore,
+        this.password
+      );
+      this.$store.commit({ type: "setWallet", wallet: wallet });
     }
   }
 };

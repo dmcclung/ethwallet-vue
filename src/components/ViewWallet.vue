@@ -26,12 +26,18 @@ export default {
   },
   data() {
     return {
-      balance: "0",
-      address: this.$store.state.wallet.getAddressString(),
-      web3: new Web3(
-        "wss://ropsten.infura.io/ws/v3/8ecfbe01aa934fbd91737cb5be95623a"
-      )
+      balance: "0"
     };
+  },
+  computed: {
+    address() {
+      return this.$store.state.wallet.getAddressString();
+    },
+    web3() {
+      return new Web3(
+        "wss://ropsten.infura.io/ws/v3/8ecfbe01aa934fbd91737cb5be95623a"
+      );
+    }
   },
   mounted() {
     intervalId = setInterval(async () => {
@@ -47,7 +53,7 @@ export default {
      * the keystore
      */
     lockWallet() {
-      this.$store.state.wallet = null;
+      this.$store.commit("lockWallet");
     }
   }
 };

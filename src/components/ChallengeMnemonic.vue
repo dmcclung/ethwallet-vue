@@ -1,10 +1,13 @@
 <template>
   <div>
-    <p class="action-text">Enter the mnemonic from the previous step.</p>
-    <textarea class="textarea-style" v-model="challengeMnemonic" />
-  </div>
-  <div>
-    <button class="button-style" @click="challenge">Challenge</button>
+    <div v-if="error" class="error">{{ error }}</div>
+    <div>
+      <p class="action-text">Enter the mnemonic from the previous step.</p>
+      <textarea class="textarea-style" v-model="challengeMnemonic" />
+    </div>
+    <div>
+      <button class="button-style" @click="challenge">Challenge</button>
+    </div>
   </div>
 </template>
 
@@ -12,37 +15,39 @@
 import { CreateWalletSteps } from "./CreateWalletSteps";
 
 export default {
+  emits: ["create-wallet-event"],
   data() {
     return {
-      challengeMnemonic: ""
+      error: "",
+      challengeMnemonicWords: []
     };
   },
   methods: {
     challenge() {
-      const modified = this.challengeMnemonic
-        .trim()
-        .split(" ")
-        .join(" ");
-      console.log(`modified: ${modified}`);
-      console.log(`original: ${this.challengeMnemonic}`);
-      if (modified === this.$store.state.mnemonic) {
+      if (this.challengeMnemonic === this.$store.state.mnemonic) {
+        // Challenge is successful, we don't need it stored in global state
+        this.$store.commit("clearMnemonic");
+        // Clear any errors
+        this.error = "";
+
         this.$emit(
           "create-wallet-event",
           CreateWalletSteps.SET_KEYSTORE_PASSWORD
         );
       } else {
-        // TODO: use error notification
-        // mnemonic needs to be stored as an array of words
-        throw Error("Challenge failed");
+        this.error = "Challenge failed";
       }
     }
   },
-  computed() {
-    return {
-      mnemonic() {
-        return this.$store.state.mnemonic;
+  computed: {
+    challengeMnemonic: {
+      get: function() {
+        return this.challengeMnemonicWords.join(" ");
+      },
+      set: function(text) {
+        this.challengeMnemonicWords = text.trim().split(" ");
       }
-    };
+    }
   }
 };
 </script>

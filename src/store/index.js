@@ -10,9 +10,9 @@ export default createStore({
     wallet: null,
 
     /**
-     * Encrypted keystore string
+     * Encrypted wallet
      */
-    v3KeyStore: null,
+    encryptedWallet: null,
 
     /**
      * BIP39 Mnemonic word list, this is only needed during mnemonic creation
@@ -21,12 +21,13 @@ export default createStore({
   },
   mutations: {
     setKeystore(state, payload) {
-      state.v3KeyStore = payload.keystore;
+      state.v3Keystore = payload.keystore;
     },
     setWallet(state, payload) {
-      console.log(`Called setwallet ${payload.wallet.getAddressString()}`);
       state.wallet = payload.wallet;
-      console.log(`state.wallet ${state.wallet.getAddressString()}`);
+    },
+    setEncryptedWallet(state, payload) {
+      state.encryptedWallet = payload.encryptedWallet;
     },
     setMnemonic(state, payload) {
       state.mnemonic = payload.mnemonic;

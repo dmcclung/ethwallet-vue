@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Wallet from "ethereumjs-wallet";
+import passworder from "browser-passworder";
 
 export default {
   data() {
@@ -22,10 +22,9 @@ export default {
   },
   methods: {
     async unlockWallet() {
-      console.log(`${this.$store.state.v3KeyStore}`);
-      const wallet = await Wallet.fromV3(
-        this.$store.state.v3KeyStore,
-        this.password
+      const wallet = await passworder.decrypt(
+        this.password,
+        this.$store.state.encryptedWallet
       );
       this.$store.commit({ type: "setWallet", wallet: wallet });
     }

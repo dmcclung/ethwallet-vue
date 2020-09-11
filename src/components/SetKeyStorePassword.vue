@@ -15,6 +15,7 @@
 <script>
 import { hdkey as HDKey } from "ethereumjs-wallet";
 import * as bip39 from "bip39";
+import passworder from "browser-passworder";
 
 export default {
   data() {
@@ -30,9 +31,9 @@ export default {
       );
       const hdkey = HDKey.fromMasterSeed(seed);
       const hdWallet = hdkey.getWallet();
-      const keystore = await hdWallet.toV3(this.password, { kdf: "pbkdf2" });
+      const encryptedWallet = await passworder.encrypt(this.password, hdWallet);
+      this.$store.commit({ type: "setEncryptedWallet", encryptedWallet: encryptedWallet});
       this.$store.commit({ type: "setWallet", wallet: hdWallet });
-      this.$store.commit({ type: "setKeystore", keystore: keystore });
     }
   }
 };

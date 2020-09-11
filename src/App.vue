@@ -20,7 +20,7 @@ import UnlockWallet from "@/components/UnlockWallet";
 export default {
   methods: {
     keyStoreExists() {
-      return this.$store.state.v3KeyStore != null;
+      return this.$store.state.v3Keystore != null;
     },
 
     walletIsLocked() {

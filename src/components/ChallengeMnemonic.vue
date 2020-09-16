@@ -25,8 +25,6 @@ export default {
   methods: {
     challenge() {
       if (this.challengeMnemonic === this.$store.state.mnemonic) {
-        // Challenge is successful, we don't need it stored in global state
-        this.$store.commit("clearMnemonic");
         // Clear any errors
         this.error = "";
 

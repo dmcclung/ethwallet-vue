@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <p class="action-text">Enter keystore password</p>
+      <p class="action-text">Enter wallet password</p>
       <input class="passwordinput-style" v-model="password" type="password" />
     </div>
     <div>
@@ -29,11 +29,16 @@ export default {
         this.$store.state.mnemonic,
         this.password
       );
+
       const hdkey = HDKey.fromMasterSeed(seed);
       const hdWallet = hdkey.getWallet();
       const encryptedWallet = await passworder.encrypt(this.password, hdWallet);
-      this.$store.commit({ type: "setEncryptedWallet", encryptedWallet: encryptedWallet});
+      this.$store.commit({
+        type: "setEncryptedWallet",
+        encryptedWallet: encryptedWallet
+      });
       this.$store.commit({ type: "setWallet", wallet: hdWallet });
+      this.$store.commit("clearMnemonic");
     }
   }
 };

@@ -32,7 +32,7 @@ export default {
     },
 
     async createMnemonic() {
-      // TODO: Determine optimum settings (entropy etc)
+      // TODO: Determine optimum settings
       this.mnemonic = await bip39.generateMnemonic();
     }
   }

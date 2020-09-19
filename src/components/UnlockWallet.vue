@@ -22,11 +22,11 @@ export default {
   },
   methods: {
     async unlockWallet() {
-      const wallet = await passworder.decrypt(
+      const privateKey = await passworder.decrypt(
         this.password,
-        this.$store.state.encryptedWallet
+        this.$store.getters.encryptedPrivateKey
       );
-      this.$store.commit({ type: "setWallet", wallet: wallet });
+      this.$store.commit({ type: "setPrivateKey", privateKey: privateKey });
     }
   }
 };

@@ -6,7 +6,7 @@
     </div>
     <div>
       <button class="button-style" @click="createHdWallet">
-        Create HD wallet
+        Create wallet
       </button>
     </div>
   </div>
@@ -26,19 +26,24 @@ export default {
   methods: {
     async createHdWallet() {
       const seed = await bip39.mnemonicToSeed(
-        this.$store.state.mnemonic,
+        this.$store.getters.mnemonic,
         this.password
       );
 
       const hdkey = HDKey.fromMasterSeed(seed);
       const hdWallet = hdkey.getWallet();
-      const encryptedWallet = await passworder.encrypt(this.password, hdWallet);
-      this.$store.commit({
-        type: "setEncryptedWallet",
-        encryptedWallet: encryptedWallet
+      const privateKey = hdWallet.getPrivateKey();
+      const address = hdWallet.getAddressString();
+      const encryptedPrivateKey = await passworder.encrypt(
+        this.password,
+        privateKey
+      );
+
+      this.$store.dispatch("createWallet", {
+        encryptedPrivateKey: encryptedPrivateKey,
+        privateKey: privateKey,
+        address: address
       });
-      this.$store.commit({ type: "setWallet", wallet: hdWallet });
-      this.$store.commit("clearMnemonic");
     }
   }
 };

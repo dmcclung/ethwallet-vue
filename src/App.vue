@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div v-if="!keyStoreExists()">
+    <div v-if="!encryptedWallet">
       <CreateWallet />
     </div>
-    <div v-else-if="walletIsLocked()">
+    <div v-else-if="walletIsLocked">
       <UnlockWallet />
     </div>
     <div v-else>
@@ -18,13 +18,13 @@ import ViewWallet from "@/components/ViewWallet";
 import UnlockWallet from "@/components/UnlockWallet";
 
 export default {
-  methods: {
-    keyStoreExists() {
-      return this.$store.state.v3Keystore != null;
+  computed: {
+    encryptedWallet() {
+      return this.$store.getters.encryptedPrivateKey;
     },
 
     walletIsLocked() {
-      return this.$store.state.wallet == null;
+      return this.$store.getters.privateKey == null;
     }
   },
   components: {

@@ -22,7 +22,10 @@ export default {
   },
   methods: {
     importMnemonic() {
-      this.$store.commit({ type: "setMnemonic", mnemonic: this.mnemonic });
+      this.$store.commit({
+        type: "setMnemonic",
+        mnemonic: this.mnemonic.trim()
+      });
       this.$emit(
         "create-wallet-event",
         CreateWalletSteps.SET_KEYSTORE_PASSWORD

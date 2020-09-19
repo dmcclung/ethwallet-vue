@@ -4,41 +4,82 @@ export default createStore({
   strict: true,
   state: {
     /**
-     * Wallet provided by ethereumjs-wallet, if created with this app,
+     * Key is created by wallet provided by ethereumjs-wallet, if created with this app,
      * a heirarchical deterministic wallet generated from a bip39 mnemonic
      */
-    wallet: null,
+    privateKey: null,
 
     /**
-     * Encrypted wallet
+     * String hex formatted address
      */
-    encryptedWallet: null,
+    address: "",
+
+    /**
+     * Encrypted private key to be used to restore wallet if locked
+     */
+    encryptedPrivateKey: null,
 
     /**
      * BIP39 Mnemonic word list, this is only needed during mnemonic creation
      */
     mnemonic: ""
   },
+  getters: {
+    address(state) {
+      return state.address;
+    },
+    mnemonic(state) {
+      return state.mnemonic;
+    },
+    privateKey(state) {
+      return state.privateKey;
+    },
+    encryptedPrivateKey(state) {
+      return state.encryptedPrivateKey;
+    }
+  },
   mutations: {
-    setKeystore(state, payload) {
-      state.v3Keystore = payload.keystore;
+    setPrivateKey(state, payload) {
+      state.privateKey = payload.privateKey;
     },
-    setWallet(state, payload) {
-      state.wallet = payload.wallet;
+    unsetPrivateKey(state) {
+      state.privateKey = null;
     },
-    setEncryptedWallet(state, payload) {
-      state.encryptedWallet = payload.encryptedWallet;
+    setEncryptedPrivateKey(state, payload) {
+      state.encryptedPrivateKey = payload.encryptedPrivateKey;
+    },
+    unsetEncryptedPrivateKey(state) {
+      state.encryptedPrivateKey = null;
     },
     setMnemonic(state, payload) {
       state.mnemonic = payload.mnemonic;
     },
-    clearMnemonic(state) {
+    unsetMnemonic(state) {
       state.mnemonic = "";
     },
-    lockWallet(state) {
-      state.wallet = null;
+    setAddress(state, payload) {
+      state.address = payload.address;
+    },
+    unsetAddress(state) {
+      state.address = "";
     }
   },
-  actions: {},
+  actions: {
+    createWallet({ commit }, payload) {
+      commit({
+        type: "setEncryptedPrivateKey",
+        encryptedPrivateKey: payload.encryptedPrivateKey
+      });
+      commit({ type: "setAddress", address: payload.address });
+      commit({ type: "setPrivateKey", privateKey: payload.privateKey });
+      commit("unsetMnemonic");
+    },
+    destroyWallet({ commit }) {
+      commit("unsetEncryptedPrivateKey");
+      commit("unsetPrivateKey");
+      commit("unsetAddress");
+      commit("unsetMnemonic");
+    }
+  },
   modules: {}
 });

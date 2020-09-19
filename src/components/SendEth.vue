@@ -13,18 +13,21 @@
 
 <script>
 import { Transaction as EthTx } from "ethereumjs-tx";
-import { Wallet } from "ethereumjs-wallet";
-import { Web3 } from "web3";
+import Web3 from "web3";
+
+const web3 = new Web3(
+  "wss://ropsten.infura.io/ws/v3/8ecfbe01aa934fbd91737cb5be95623a"
+);
 
 export default {
   name: "send-eth",
-  props: {
-    web3: Web3,
-    wallet: Wallet,
-    chain: String
-  },
   data() {
     return {
+      /**
+       * Network chain
+       */
+      chain: "ropsten",
+
       /**
        * Address of receiver in current eth transaction
        */
@@ -53,7 +56,7 @@ export default {
   },
   mounted() {
     const updateGasPrice = async () => {
-      this.gasPrice = await this.web3.eth.getGasPrice();
+      this.gasPrice = await web3.eth.getGasPrice();
     };
     updateGasPrice();
   },
@@ -70,13 +73,14 @@ export default {
       }
 
       const hex = txParam => {
-        return this.web3.utils.utf8ToHex(txParam);
+        return web3.utils.utf8ToHex(txParam);
       };
 
       // contract creation is not supported, so we require a 'to'
       // TODO: how to track nonce
+      // You may not need the hex explicit formatting
       const txParams = {
-        nonce: hex(`${this.$store.state.nonce}`),
+        nonce: 0,
         gasPrice: hex(this.gasPrice),
         gasLimit: hex(this.gasLimit),
         to: this.receiverAddress,
@@ -85,9 +89,9 @@ export default {
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });
-      tx.sign(this.wallet.getPrivateKey());
+      tx.sign(this.$store.getters.privateKey());
       const serializedTx = tx.serialize();
-      this.web3.eth.sendTransaction(serializedTx);
+      web3.eth.sendTransaction(serializedTx);
     }
   }
 };

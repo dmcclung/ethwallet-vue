@@ -1,5 +1,12 @@
 <template>
   <div>
+    <span class="descriptive-text">
+      To start the fun, you need to create or import a wallet from what's called
+      a mnemonic. A mnemonic is a series of words in a language of your choice
+      that only you know. Once you create a mnemonic and generate a wallet from
+      it, you can recreate your wallet with only the mnemonic. Keep it safe in a
+      secure password manager or offline.
+    </span>
     <p class="action-text">
       Click the button below to create a mnemonic. Once created, store it
       safely.

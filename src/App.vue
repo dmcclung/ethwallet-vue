@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <div v-if="!encryptedWallet">
-      <CreateWallet />
-    </div>
-    <div v-else-if="walletIsLocked">
-      <UnlockWallet />
-    </div>
-    <div v-else>
-      <ViewWallet />
+    <header class="header-style">Ethereum Wallet</header>
+    <div style="width:895px; margin: 0 auto">
+      <div v-if="!encryptedWallet">
+        <CreateWallet />
+      </div>
+      <div v-else-if="walletIsLocked">
+        <UnlockWallet />
+      </div>
+      <div v-else>
+        <ViewWallet />
+      </div>
     </div>
   </div>
 </template>
@@ -38,10 +41,9 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  min-height: 100vh;
   background-image: linear-gradient(
     to right bottom,
     rgb(254, 242, 244),
@@ -73,6 +75,37 @@ export default {
   padding: 10px;
   margin: 10px;
   border-radius: 6px;
+}
+
+.header-style {
+  background-image: linear-gradient(
+    to right,
+    rgb(253, 204, 211),
+    rgb(252, 160, 154),
+    rgb(255, 204, 158),
+    rgb(152, 221, 173),
+    rgb(129, 215, 236),
+    rgb(160, 170, 237)
+  );
+  display: flex;
+  padding: 12px 12px 12px 24px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+  line-height: 33px;
+  font-size: 18px;
+}
+
+.chooser-style {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.container-style {
+  border: 1px solid rgb(114, 117, 119);
+  width: 388px;
+  height: 278px;
+  padding: 48px;
+  border-radius: 6px;
+  margin: 10px;
 }
 
 .descriptive-text {
@@ -141,6 +174,16 @@ export default {
   margin: 10px;
 }
 
+.chooser-button {
+  width: 250px;
+}
+
+.chooser-description {
+  font-size: 14px;
+  height: 100px;
+  margin-top: 5px;
+}
+
 .action-text {
   font-family: "Maison Neue", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Helvetica, Arial, sans-serif;
@@ -153,16 +196,11 @@ export default {
   display: block;
 }
 
-#nav {
-  padding: 30px;
+* {
+  box-sizing: border-box;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  margin: 0;
 }
 </style>

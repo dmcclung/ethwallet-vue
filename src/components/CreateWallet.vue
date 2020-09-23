@@ -8,7 +8,7 @@
 import CreateMnemonic from "@/components/CreateMnemonic";
 import ImportMnemonic from "@/components/ImportMnemonic";
 import MnemonicChooser from "@/components/MnemonicChooser";
-import ChallengeMnemonic from "@/components/ChallengeMnemonic";
+import ConfirmMnemonic from "@/components/ConfirmMnemonic";
 import SetKeyStorePassword from "@/components/SetKeyStorePassword";
 
 import { CreateWalletSteps } from "./CreateWalletSteps.js";
@@ -17,10 +17,10 @@ const keyedComponents = new Map();
 keyedComponents.set(CreateWalletSteps.MNEMONIC_CHOOSER, MnemonicChooser);
 keyedComponents.set(CreateWalletSteps.CREATE_MNEMONIC, CreateMnemonic);
 keyedComponents.set(CreateWalletSteps.IMPORT_MNEMONIC, ImportMnemonic);
-keyedComponents.set(CreateWalletSteps.CHALLENGE_MNEMONIC, ChallengeMnemonic);
+keyedComponents.set(CreateWalletSteps.CONFIRM_MNEMONIC, ConfirmMnemonic);
 keyedComponents.set(CreateWalletSteps.SET_KEYSTORE_PASSWORD, SetKeyStorePassword);
 
-// MnemonicChooser -> CreateMnemonic -> ChallengeMnemonic -> SetKeyStorePassword
+// MnemonicChooser -> CreateMnemonic -> ConfirmMnemonic -> SetKeyStorePassword
 //                 -> ImportMnemonic -> SetKeyStorePassword
 
 export default {

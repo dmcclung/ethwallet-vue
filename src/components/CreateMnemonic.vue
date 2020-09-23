@@ -38,7 +38,7 @@ export default {
   methods: {
     save() {
       this.$store.commit({ type: "setMnemonic", mnemonic: this.mnemonic });
-      this.$emit("create-wallet-event", CreateWalletSteps.CHALLENGE_MNEMONIC);
+      this.$emit("create-wallet-event", CreateWalletSteps.CONFIRM_MNEMONIC);
     },
 
     async createMnemonic() {

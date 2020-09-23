@@ -3,10 +3,11 @@
     <div v-if="error" class="error">{{ error }}</div>
     <div>
       <p class="action-text">Enter the mnemonic from the previous step.</p>
-      <textarea class="textarea-style" v-model="challengeMnemonic" />
+      <input class="textinput-style" v-model="confirmMnemonic" type="text" />
     </div>
     <div>
-      <button class="rainbow-button" @click="challenge">Challenge</button>
+      <button class="small-button" @click="back">Back</button>
+      <button class="rainbow-button" @click="confirm">Confirm</button>
     </div>
   </div>
 </template>
@@ -19,12 +20,12 @@ export default {
   data() {
     return {
       error: "",
-      challengeMnemonicWords: []
+      confirmMnemonicWords: []
     };
   },
   methods: {
     challenge() {
-      if (this.challengeMnemonic === this.$store.state.mnemonic) {
+      if (this.confirmMnemonic === this.$store.state.mnemonic) {
         // Clear any errors
         this.error = "";
 
@@ -33,17 +34,17 @@ export default {
           CreateWalletSteps.SET_KEYSTORE_PASSWORD
         );
       } else {
-        this.error = "Challenge failed";
+        this.error = "Mnemonic words did not match";
       }
     }
   },
   computed: {
-    challengeMnemonic: {
+    confirmMnemonic: {
       get: function() {
-        return this.challengeMnemonicWords.join(" ");
+        return this.confirmMnemonicWords.join(" ");
       },
       set: function(text) {
-        this.challengeMnemonicWords = text.trim().split(" ");
+        this.confirmMnemonicWords = text.trim().split(" ");
       }
     }
   }

@@ -6,7 +6,7 @@
       <textarea class="textarea-style" v-model="challengeMnemonic" />
     </div>
     <div>
-      <button class="button-style" @click="challenge">Challenge</button>
+      <button class="rainbow-button" @click="challenge">Challenge</button>
     </div>
   </div>
 </template>

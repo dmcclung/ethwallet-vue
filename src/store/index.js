@@ -1,4 +1,7 @@
 import { createStore } from "vuex";
+import { hdkey as HDKey } from "ethereumjs-wallet";
+import * as bip39 from "bip39";
+import passworder from "browser-passworder";
 
 export default createStore({
   strict: true,
@@ -65,15 +68,39 @@ export default createStore({
     }
   },
   actions: {
-    createWallet({ commit }, payload) {
+    async unlockWallet({ commit, getters }, payload) {
+      const privateKey = await passworder.decrypt(
+        payload.password,
+        getters.encryptedPrivateKey
+      );
+      commit({ type: "setPrivateKey", privateKey: privateKey });
+    },
+
+    async createWallet({ commit }, payload) {
+      // what moves out and what becomes part of the payload
+      const seed = await bip39.mnemonicToSeed(
+        payload.mnemonic,
+        payload.password
+      );
+
+      const hdkey = HDKey.fromMasterSeed(seed);
+      const hdWallet = hdkey.getWallet();
+      const privateKey = hdWallet.getPrivateKey();
+      const address = hdWallet.getAddressString();
+      const encryptedPrivateKey = await passworder.encrypt(
+        payload.password,
+        privateKey
+      );
+
       commit({
         type: "setEncryptedPrivateKey",
-        encryptedPrivateKey: payload.encryptedPrivateKey
+        encryptedPrivateKey: encryptedPrivateKey
       });
-      commit({ type: "setAddress", address: payload.address });
-      commit({ type: "setPrivateKey", privateKey: payload.privateKey });
+      commit({ type: "setAddress", address: address });
+      commit({ type: "setPrivateKey", privateKey: privateKey });
       commit("unsetMnemonic");
     },
+
     destroyWallet({ commit }) {
       commit("unsetEncryptedPrivateKey");
       commit("unsetPrivateKey");

@@ -60,14 +60,12 @@ export default {
 }
 
 .code-text {
-  display: block;
   font-family: monospace;
   font-size: 20px;
 }
 
 .box-style {
   display: flex;
-  box-sizing: border-box;
   background: rgb(255, 255, 255);
   color: rgb(15, 42, 67);
   border: 1px solid rgb(221, 221, 221);
@@ -117,48 +115,25 @@ export default {
   font-size: 22px;
   line-height: 28px;
   color: rgb(15, 42, 67);
-  display: block;
+  width: 500px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
-.textarea-style {
+.textinput-style {
   line-height: 26px;
-  width: 500px;
-  height: 110px;
+  width: 300px;
   color: rgb(68, 68, 68);
-  padding-left: 10px;
-  box-sizing: border-box;
   background-color: rgb(253, 252, 254);
-  border-radius: 3px 0px 0px 3px;
-  appearance: textfield;
-  border-top: 1px solid rgb(221, 221, 221);
-  border-bottom: 1px solid rgb(221, 221, 221);
-  border-left: 1px solid rgb(221, 221, 221);
-  border-image: initial;
-  border-right: none;
-  display: inline-flex;
+  border-radius: 3px;
+  border: 1px solid rgb(221, 221, 221);
   font-family: monospace;
   font-size: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.passwordinput-style {
-  line-height: 20px;
-  width: 400px;
-  height: 50px;
-  padding-left: 10px;
-  box-sizing: border-box;
-  background-color: rgb(253, 252, 254);
-  border-radius: 3px 0px 0px 3px;
-  appearance: textfield;
-  border-top: 1px solid rgb(221, 221, 221);
-  border-bottom: 1px solid rgb(221, 221, 221);
-  border-left: 1px solid rgb(221, 221, 221);
-  border-image: initial;
-  border-right: none;
-  display: inline-flex;
-  font-size: 14px;
-}
-
-.button-style {
+.rainbow-button {
   background-image: linear-gradient(
     to right,
     rgb(253, 204, 211),
@@ -169,9 +144,27 @@ export default {
     rgb(160, 170, 237)
   );
   padding: 15px;
-  width: 300px;
+  width: 250px;
   font-size: 18px;
   margin: 10px;
+}
+
+.small-button {
+  font-family: "Maison Neue",
+    "Segoe UI", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  margin: 0px 30px 0px 0px;
+  border-radius: 4px;
+  display: block;
+  text-transform: capitalize;
+  letter-spacing: 1.5px;
+  background: transparent;
+  color: rgb(68, 68, 68);
+  padding: 12px 24px;
+  line-height: 24px;
+  font-size: 12px;
+  border: 1px solid;
+  font-weight: 500;
 }
 
 .chooser-button {

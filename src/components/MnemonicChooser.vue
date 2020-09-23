@@ -8,7 +8,7 @@
           This will create a new mnemonic and wallet
         </div>
         <div>
-          <button class="button-style chooser-button" @click="emitCreate">
+          <button class="rainbow-button chooser-button" @click="emitCreate">
             Create wallet
           </button>
         </div>
@@ -19,7 +19,7 @@
           Recreate a wallet from a mnemonic you recorded previously from this or
           another application
         </div>
-        <button class="button-style chooser-button" @click="emitImport">
+        <button class="rainbow-button chooser-button" @click="emitImport">
           Import wallet
         </button>
       </div>

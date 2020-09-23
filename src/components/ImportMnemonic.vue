@@ -1,36 +1,58 @@
 <template>
-  <div>
-    <div>
-      <p class="action-text">Enter mnemonic</p>
-      <textarea class="textarea-style" v-model="mnemonic" />
+  <div style="margin-top: 10px">
+    <div v-if="error" class="error">{{ error }}</div>
+    <div style="width: 400px">
+      <p class="action-text">Import wallet with mnemonic</p>
+      <p>Enter your secret mnemonic phrase to import your wallet</p>
+      <div class="div-style">
+        <div>Mnemonic</div>
+        <input class="textinput-style" v-model="mnemonic" type="text" />
+      </div>
+      <div class="div-style">
+        <div>New password (min 8 chars)</div>
+        <input class="textinput-style" v-model="password" type="password" />
+      </div>
+      <div class="div-style">
+        <div>Confirm password</div>
+        <input class="textinput-style" v-model="confirmation" type="password" />
+      </div>
+      <button class="rainbow-button" @click="importMnemonic">Import</button>
     </div>
-    <button class="button-style" @click="importMnemonic">
-      Import Mnemonic
-    </button>
   </div>
 </template>
 
 <script>
-import { CreateWalletSteps } from "./CreateWalletSteps";
-
 export default {
-  emits: ["create-wallet-event"],
   data() {
     return {
-      mnemonic: ""
+      error: "",
+      mnemonic: "",
+      password: "",
+      confirmation: ""
     };
   },
   methods: {
     importMnemonic() {
-      this.$store.commit({
-        type: "setMnemonic",
-        mnemonic: this.mnemonic.trim()
+      if (!this.password || this.password != this.confirmation) {
+        this.error = "Passwords do not match";
+        return;
+      } else {
+        this.error = "";
+      }
+
+      this.$store.dispatch("createWallet", {
+        mnemonic: this.mnemonic.trim(),
+        password: this.password
       });
-      this.$emit(
-        "create-wallet-event",
-        CreateWalletSteps.SET_KEYSTORE_PASSWORD
-      );
     }
   }
 };
 </script>
+
+<style scoped>
+.div-style {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+</style>

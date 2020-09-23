@@ -7,11 +7,15 @@
 
     <!-- see account address, balance of eth and any supported tokens
     see button to send money-->
-    <p>Address {{ address }}</p>
-    <p>Balance {{ balance }}</p>
-    <button class="button-style" @click="lockWallet">Lock wallet</button>
-    <button class="button-style" @click="clearWallet">Clear wallet</button>
-    <send-eth />
+    <p>Account {{ address }}</p>
+    <button class="small-button" @click="lockWallet">Lock wallet</button>
+    <button class="small-button" @click="clearWallet">Clear wallet</button>
+    <button class="small-button" @click="copyAddress">Copy Address</button>
+    <button class="small-button" @click="showQRCode = true">Show QR Code</button>
+
+    <p>{{ balance }} Ξ</p>
+    <button class="small-button" @click="showSend = true">Send</button>
+    <send-eth v-if="showSend" @close="showSend = false" />
   </div>
 </template>
 
@@ -31,7 +35,9 @@ export default {
   },
   data() {
     return {
-      balance: "0"
+      balance: "0",
+      showSend: false,
+      showQRCode: false
     };
   },
   computed: {

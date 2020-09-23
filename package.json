@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "ethereumjs-tx": "^2.1.2",
     "ethereumjs-wallet": "^1.0.0",
+    "qrcode": "^1.4.4",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",

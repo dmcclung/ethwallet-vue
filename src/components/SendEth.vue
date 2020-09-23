@@ -1,23 +1,24 @@
 <template>
-<transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-  <div>
-    <p>gas price: {{ gasPrice }}</p>
-    <div>
-      <input v-model="receiverAddress" placeholder="Receiver Address" />
-      <input v-model="value" placeholder="Value" />
-      <input v-model="data" placeholder="Data" />
-      <input v-model="gasLimit" placeholder="Gas Limit" />
-      <button class="rainbow-button" @click="sendEth">Send</button>
-      <button class="small-button" @click="close">Close</button>
-    </div>
-  </div>
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div>
+            <p>gas price: {{ gasPrice }}</p>
+            <div>
+              <input v-model="receiverAddress" placeholder="Receiver Address" />
+              <input v-model="value" placeholder="Value" />
+              <input v-model="data" placeholder="Data" />
+              <input v-model="gasLimit" placeholder="Gas Limit" />
+              <button class="rainbow-button" @click="sendEth">Send</button>
+              <!-- TODO: emit close event -->
+              <button class="small-button" @click="close">Close</button>
             </div>
           </div>
         </div>
-</transition>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>

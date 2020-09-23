@@ -3,7 +3,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <img @src="qrCode" />
+          <img @src="dataURL" />
         </div>
       </div>
     </div>
@@ -14,13 +14,22 @@
 import QRCode from "qrcode";
 
 export default {
+  name: "show-qr-code",
   props: {
     address: String
   },
-  computed: {
-    async qrCode() {
-      return QRCode.toDataURL(this.address, { errorCorrectionLevel: "M" });
-    }
+  data() {
+    return {
+      dataURL: ""
+    };
+  },
+  mounted() {
+    const createQRCode = async () => {
+      this.dataURL = await QRCode.toDataURL(this.address, {
+        errorCorrectionLevel: "M"
+      });
+    };
+    createQRCode();
   }
 };
 </script>

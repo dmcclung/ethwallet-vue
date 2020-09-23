@@ -16,11 +16,13 @@
     <p>{{ balance }} Ξ</p>
     <button class="small-button" @click="showSend = true">Send</button>
     <send-eth v-if="showSend" @close="showSend = false" />
+    <show-qr-code v-if="showQRCode" @close="showQRCode = false" />
   </div>
 </template>
 
 <script>
 import SendEth from "@/components/SendEth";
+import ShowQRCode from "@/components/ShowQRCode";
 import Web3 from "web3";
 
 const web3 = new Web3(
@@ -31,7 +33,8 @@ let intervalId;
 
 export default {
   components: {
-    SendEth
+    SendEth,
+    ShowQRCode
   },
   data() {
     return {

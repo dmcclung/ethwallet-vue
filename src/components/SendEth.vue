@@ -67,8 +67,6 @@ export default {
       this.$emit("close");
     },
     async sendEth() {
-      // you probably don't need a requirement for gas price
-      // only specify gas price if user wants to pay more or less
       if (this.gasPrice === "") {
         throw new Error("Need gas price to send eth");
       }
@@ -77,20 +75,14 @@ export default {
         throw new Error("Receiver address required");
       }
 
-      const hex = txParam => {
-        return web3.utils.utf8ToHex(txParam);
-      };
+      if (this.value === null) {
+        throw new Error("No value specified");
+      }
 
-      // contract creation is not supported, so we require a 'to'
-      // TODO: how to track nonce
-      // You may not need the hex explicit formatting
       const txParams = {
-        nonce: 0,
-        gasPrice: hex(this.gasPrice),
-        gasLimit: hex(this.gasLimit),
         to: this.receiverAddress,
-        value: hex(this.value),
-        data: hex(this.data)
+        value: this.value,
+        data: this.data
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });

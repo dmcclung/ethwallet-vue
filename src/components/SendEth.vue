@@ -48,10 +48,10 @@ export default {
       /**
        * Wei value to be sent in current eth transaction
        */
-      value: "0",
+      value: "",
 
       /**
-       * Gas price
+       * Gas price displayed for information purposes
        */
       gasPrice: ""
     };
@@ -67,22 +67,18 @@ export default {
       this.$emit("close");
     },
     async sendEth() {
-      if (this.gasPrice === "") {
-        throw new Error("Need gas price to send eth");
-      }
 
       if (this.receiverAddress === null) {
         throw new Error("Receiver address required");
       }
 
-      if (this.value === null) {
-        throw new Error("No value specified");
+      if (this.value === "") {
+        throw new Error("Amount required");
       }
 
       const txParams = {
         to: this.receiverAddress,
         value: this.value,
-        data: this.data
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });

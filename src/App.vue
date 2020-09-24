@@ -21,6 +21,9 @@ import ViewWallet from "@/components/ViewWallet";
 import UnlockWallet from "@/components/UnlockWallet";
 
 export default {
+  beforeCreate() {
+    this.$store.commit("initializeStore");
+  },
   computed: {
     encryptedWallet() {
       return this.$store.getters.encryptedPrivateKey;

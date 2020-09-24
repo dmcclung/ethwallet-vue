@@ -42,6 +42,15 @@ export default createStore({
     }
   },
   mutations: {
+    initializeStore(state) {
+      if (localStorage.encryptedPrivateKey) {
+        state.encryptedPrivateKey = localStorage.encryptedPrivateKey;
+      }
+
+      if (localStorage.address) {
+        state.address = localStorage.address;
+      }
+    },
     setPrivateKey(state, payload) {
       state.privateKey = payload.privateKey;
     },
@@ -50,11 +59,11 @@ export default createStore({
     },
     setEncryptedPrivateKey(state, payload) {
       state.encryptedPrivateKey = payload.encryptedPrivateKey;
-      //localStorage.setItem("encryptedPrivateKey", state.encryptedPrivateKey);
+      localStorage.setItem("encryptedPrivateKey", state.encryptedPrivateKey);
     },
     unsetEncryptedPrivateKey(state) {
       state.encryptedPrivateKey = null;
-      //localStorage.removeItem("encryptedPrivateKey");
+      localStorage.removeItem("encryptedPrivateKey");
     },
     setMnemonic(state, payload) {
       state.mnemonic = payload.mnemonic;
@@ -64,11 +73,11 @@ export default createStore({
     },
     setAddress(state, payload) {
       state.address = payload.address;
-      //localStorage.setItem("address", state.address);
+      localStorage.setItem("address", state.address);
     },
     unsetAddress(state) {
       state.address = "";
-      //localStorage.removeItem("address");
+      localStorage.removeItem("address");
     }
   },
   actions: {

@@ -9,7 +9,7 @@
       </div>
       <div style="display: flex">
         <button class="rainbow-button" @click="createMnemonic">
-          Create Mnemonic
+          Create mnemonic
         </button>
         <button class="rainbow-button" @click="save">Save</button>
       </div>

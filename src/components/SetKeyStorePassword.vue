@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <p class="action-text">Enter wallet password</p>
-      <input class="textinput-style" v-model="password" type="password" />
+      <p style="margin-top: 20px" class="action-text">Enter wallet password</p>
+      <input style="margin: 10px" class="textinput-style" v-model="password" type="password" />
     </div>
     <div>
       <button class="rainbow-button" @click="createHdWallet">

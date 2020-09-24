@@ -4,15 +4,16 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div>
-            <p>gas price: {{ gasPrice }}</p>
             <div>
-              <input v-model="receiverAddress" placeholder="Receiver Address" />
-              <input v-model="value" placeholder="Value" />
-              <input v-model="data" placeholder="Data" />
-              <input v-model="gasLimit" placeholder="Gas Limit" />
-              <button class="rainbow-button" @click="sendEth">Send</button>
-              <!-- TODO: emit close event -->
-              <button class="small-button" @click="close">Close</button>
+              <input class="textinput-style" v-model="receiverAddress" placeholder="Receiver Address" />
+              <div>
+                Amount Ξ <input class="textinput-style" v-model="value" />
+              </div>
+              Transaction fee: {{ gasPrice }}
+              <div style="display: flex; align-items:center">
+                <button class="small-button" @click="close">Cancel</button>
+                <button class="rainbow-button" @click="sendEth">Send</button>
+              </div>
             </div>
           </div>
         </div>
@@ -31,6 +32,7 @@ const web3 = new Web3(
 
 export default {
   name: "send-eth",
+  emits: ["close"],
   data() {
     return {
       /**
@@ -49,16 +51,6 @@ export default {
       value: "0",
 
       /**
-       * String data to send in current eth transaction
-       */
-      data: "",
-
-      /**
-       * Gas limit
-       */
-      gasLimit: "",
-
-      /**
        * Gas price
        */
       gasPrice: ""
@@ -71,6 +63,9 @@ export default {
     updateGasPrice();
   },
   methods: {
+    close() {
+      this.$emit("close");
+    },
     async sendEth() {
       // you probably don't need a requirement for gas price
       // only specify gas price if user wants to pay more or less
@@ -108,6 +103,19 @@ export default {
 </script>
 
 <style scoped>
+.textinput-style {
+  line-height: 26px;
+  width: 300px;
+  color: rgb(68, 68, 68);
+  background-color: rgb(253, 252, 254);
+  border-radius: 3px;
+  border: 1px solid rgb(221, 221, 221);
+  font-family: monospace;
+  font-size: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -126,10 +134,15 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
+  width: 400px;
+  height: 500px;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-image: linear-gradient(
+    to right bottom,
+    rgb(254, 242, 244),
+    rgb(253, 204, 211)
+  );
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;

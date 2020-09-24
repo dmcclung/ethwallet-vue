@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div style="display: flex; flex-direction: column; align-items: center">
     <div v-if="error" class="error">{{ error }}</div>
-    <div>
+    <div style="margin-top: 20px">
       <p class="action-text">Enter the mnemonic from the previous step.</p>
-      <input class="textinput-style" v-model="confirmMnemonic" type="text" />
+      <input style="margin-bottom: 20px; margin-top: 20px" class="textinput-style" v-model="confirmMnemonic" type="text" />
     </div>
-    <div>
-      <button class="small-button" @click="back">Back</button>
+    <div style="display: flex">
+      <button style="height: 55px; margin-top: 10px" class="small-button" @click="back">Back</button>
       <button class="rainbow-button" @click="confirm">Confirm</button>
     </div>
   </div>
@@ -24,7 +24,11 @@ export default {
     };
   },
   methods: {
-    challenge() {
+    back() {
+      this.error = "";
+      this.$emit("create-wallet-event", CreateWalletSteps.CREATE_MNEMONIC);
+    },
+    confirm() {
       if (this.confirmMnemonic === this.$store.state.mnemonic) {
         // Clear any errors
         this.error = "";

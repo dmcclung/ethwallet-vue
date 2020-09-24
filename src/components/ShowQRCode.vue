@@ -1,9 +1,9 @@
 <template>
-  <transition name="modal">
+  <transition @click="close" name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <img @src="dataURL" />
+          <img :src="dataURL" />
         </div>
       </div>
     </div>
@@ -18,10 +18,16 @@ export default {
   props: {
     address: String
   },
+  emits: ["close"],
   data() {
     return {
       dataURL: ""
     };
+  },
+  methods: {
+    close() {
+      this.$emit("close");
+    }
   },
   mounted() {
     const createQRCode = async () => {
@@ -56,7 +62,11 @@ export default {
   width: 300px;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-image: linear-gradient(
+    to right bottom,
+    rgb(254, 242, 244),
+    rgb(253, 204, 211)
+  );
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;

@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 10px">
+  <div style="margin-top: 20px">
     <div v-if="error" class="error">{{ error }}</div>
     <div style="width: 400px">
       <p class="action-text">Import wallet with mnemonic</p>

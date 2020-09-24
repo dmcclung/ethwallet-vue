@@ -29,9 +29,6 @@ export default createStore({
   },
   getters: {
     address(state) {
-      if (localStorage.address) {
-        state.address = localStorage.getItem("address");
-      }
       return state.address;
     },
     mnemonic(state) {
@@ -41,9 +38,6 @@ export default createStore({
       return state.privateKey;
     },
     encryptedPrivateKey(state) {
-      if (localStorage.encryptedPrivateKey) {
-        state.encryptedPrivateKey = localStorage.getItem("encryptedPrivateKey");
-      }
       return state.encryptedPrivateKey;
     }
   },
@@ -56,11 +50,11 @@ export default createStore({
     },
     setEncryptedPrivateKey(state, payload) {
       state.encryptedPrivateKey = payload.encryptedPrivateKey;
-      localStorage.setItem("encryptedPrivateKey", state.encryptedPrivateKey);
+      //localStorage.setItem("encryptedPrivateKey", state.encryptedPrivateKey);
     },
     unsetEncryptedPrivateKey(state) {
       state.encryptedPrivateKey = null;
-      localStorage.removeItem("encryptedPrivateKey");
+      //localStorage.removeItem("encryptedPrivateKey");
     },
     setMnemonic(state, payload) {
       state.mnemonic = payload.mnemonic;
@@ -70,11 +64,11 @@ export default createStore({
     },
     setAddress(state, payload) {
       state.address = payload.address;
-      localStorage.setItem("address", state.address);
+      //localStorage.setItem("address", state.address);
     },
     unsetAddress(state) {
       state.address = "";
-      localStorage.removeItem("address");
+      //localStorage.removeItem("address");
     }
   },
   actions: {
@@ -84,6 +78,10 @@ export default createStore({
         getters.encryptedPrivateKey
       );
       commit({ type: "setPrivateKey", privateKey: privateKey });
+    },
+
+    lockWallet({ commit }) {
+      commit("unsetPrivateKey");
     },
 
     async createWallet({ commit }, payload) {

@@ -43,12 +43,12 @@ export default createStore({
   },
   mutations: {
     initializeStore(state) {
-      if (localStorage.encryptedPrivateKey) {
-        state.encryptedPrivateKey = localStorage.encryptedPrivateKey;
+      if (localStorage.getItem("encryptedPrivateKey")) {
+        state.encryptedPrivateKey = localStorage.getItem("encryptedPrivateKey");
       }
 
-      if (localStorage.address) {
-        state.address = localStorage.address;
+      if (localStorage.getItem("address")) {
+        state.address = localStorage.getItem("address");
       }
     },
     setPrivateKey(state, payload) {

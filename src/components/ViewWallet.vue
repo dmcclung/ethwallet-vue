@@ -9,18 +9,48 @@
     see button to send money-->
     <div style="margin-top: 20px">
       <div style="display: inline">Account {{ address }}</div>
-      <button style="display: inline; margin-left: 10px; margin-right: 10px" class="small-button" @click="copy">Copy</button>
-      <button style="display: inline" class="small-button" @click="showQRCode = true">QR</button>
-      <button style="display: inline; margin-right: 10px" class="small-button" @click="lockWallet">Lock</button>
-      <button style="display: inline" class="small-button" @click="clearWallet">Clear</button>
+      <button
+        style="display: inline; margin-left: 10px; margin-right: 10px"
+        class="small-button"
+        @click="copy"
+      >
+        Copy
+      </button>
+      <button
+        style="display: inline"
+        class="small-button"
+        @click="showQRCode = true"
+      >
+        QR
+      </button>
+      <button
+        style="display: inline; margin-right: 10px"
+        class="small-button"
+        @click="lockWallet"
+      >
+        Lock
+      </button>
+      <button style="display: inline" class="small-button" @click="clearWallet">
+        Clear
+      </button>
     </div>
 
     <div style="font-size: 32px; margin-top: 50px">{{ balance }} Ξ</div>
     <div style="display: flex; flex-direction: column; align-items: center">
-      <button style="width: 200px; margin-top: 30px" class="small-button" @click="showSend = true">Send</button>
+      <button
+        style="width: 200px; margin-top: 30px"
+        class="small-button"
+        @click="showSend = true"
+      >
+        Send
+      </button>
     </div>
     <SendEth v-if="showSend" @close="showSend = false" />
-    <ShowQRCode v-if="showQRCode" :address="$store.getters.address" @close="showQRCode = false" />
+    <ShowQRCode
+      v-if="showQRCode"
+      :address="$store.getters.address"
+      @close="showQRCode = false"
+    />
   </div>
 </template>
 
@@ -59,7 +89,8 @@ export default {
   },
   mounted() {
     intervalId = setInterval(async () => {
-      this.balance = await web3.eth.getBalance(this.$store.getters.address);
+      const balanceWei = await web3.eth.getBalance(this.$store.getters.address);
+      this.balance = web3.utils.fromWei(balanceWei);
     }, 5000);
   },
   unmounted() {

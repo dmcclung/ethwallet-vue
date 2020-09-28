@@ -5,11 +5,15 @@
         <div class="modal-container">
           <div>
             <div>
-              <input class="textinput-style" v-model="receiverAddress" placeholder="Receiver Address" />
+              <input
+                class="textinput-style"
+                v-model="receiverAddress"
+                placeholder="Receiver Address"
+              />
               <div>
                 Amount Ξ <input class="textinput-style" v-model="value" />
               </div>
-              Transaction fee: {{ gasPrice }}
+              Transaction fee Gwei: {{ gasPrice }}
               <div style="display: flex; align-items:center">
                 <button class="small-button" @click="close">Cancel</button>
                 <button class="rainbow-button" @click="sendEth">Send</button>
@@ -41,14 +45,14 @@ export default {
       chain: "ropsten",
 
       /**
-       * Address of receiver in current eth transaction
+       * Address of receiver in current transaction
        */
       receiverAddress: null,
 
       /**
-       * Wei value to be sent in current eth transaction
+       * Eth value to be sent in current transaction
        */
-      value: "",
+      valueWei: "",
 
       /**
        * Gas price displayed for information purposes
@@ -58,33 +62,48 @@ export default {
   },
   mounted() {
     const updateGasPrice = async () => {
-      this.gasPrice = await web3.eth.getGasPrice();
+      const gasPriceWei = await web3.eth.getGasPrice();
+      this.gasPrice = web3.utils.fromWei(gasPriceWei, "gwei");
     };
     updateGasPrice();
+  },
+  computed: {
+    value: {
+      get() {
+        return web3.utils.fromWei(this.valueWei);
+      },
+      set(value) {
+        try {
+          this.valueWei = web3.utils.toWei(value);
+        } catch (e) {
+          console.debug(e.message);
+        }
+      }
+    }
   },
   methods: {
     close() {
       this.$emit("close");
     },
     async sendEth() {
-
       if (this.receiverAddress === null) {
         throw new Error("Receiver address required");
       }
 
-      if (this.value === "") {
+      if (this.valueWei === "") {
         throw new Error("Amount required");
       }
 
       const txParams = {
+        from: this.$store.getters.address,
         to: this.receiverAddress,
-        value: this.value,
+        value: web3.utils.toHex(this.valueWei)
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });
-      tx.sign(this.$store.getters.privateKey());
+      tx.sign(this.$store.getters.privateKey.data);
       const serializedTx = tx.serialize();
-      web3.eth.sendTransaction(serializedTx);
+      web3.eth.sendSignedTransaction(serializedTx);
     }
   }
 };

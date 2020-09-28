@@ -1,19 +1,19 @@
 <template>
-  <div style="margin-top: 20px">
+  <div style="margin-top: 20px width:895px">
     <div v-if="error" class="error">{{ error }}</div>
-    <div style="width: 400px">
+    <div>
       <p class="action-text">Import wallet with mnemonic</p>
       <p>Enter your secret mnemonic phrase to import your wallet</p>
       <div class="div-style">
-        <div>Mnemonic</div>
+        <div style="margin: 5px">Mnemonic</div>
         <input class="textinput-style" v-model="mnemonic" type="text" />
       </div>
       <div class="div-style">
-        <div>New password (min 8 chars)</div>
+        <div style="margin: 5px">New password (min 8 chars)</div>
         <input class="textinput-style" v-model="password" type="password" />
       </div>
       <div class="div-style">
-        <div>Confirm password</div>
+        <div style="margin: 5px">Confirm password</div>
         <input class="textinput-style" v-model="confirmation" type="password" />
       </div>
       <button class="rainbow-button" @click="importMnemonic">Import</button>
@@ -53,6 +53,6 @@ export default {
 .div-style {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 </style>

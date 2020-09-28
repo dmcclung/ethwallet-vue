@@ -13,10 +13,14 @@
               <div>
                 Amount Ξ <input class="textinput-style" v-model="value" />
               </div>
-              Transaction fee Gwei: {{ gasPrice }}
+              Transaction fee Gas Price (gwei): {{ gasPrice }} Gas Limit
+              {{ gasLimit }}
               <div style="display: flex; align-items:center">
-                <button class="small-button" @click="close">Cancel</button>
+                <button class="small-button" @click="close">Close</button>
                 <button class="rainbow-button" @click="sendEth">Send</button>
+              </div>
+              <div v-if="transactionHash">
+                Transaction Hash {{ transactionHash }}
               </div>
             </div>
           </div>
@@ -41,6 +45,7 @@ export default {
     return {
       /**
        * Network chain
+       * FIXME: This should be a dropdown
        */
       chain: "ropsten",
 
@@ -55,9 +60,19 @@ export default {
       valueWei: "",
 
       /**
-       * Gas price displayed for information purposes
+       * Gas price displayed for information purposes in gwei
        */
-      gasPrice: ""
+      gasPrice: "",
+
+      /**
+       * Standard gas limit
+       */
+      gasLimit: "21000",
+
+      /**
+       * Transaction hash
+       */
+      transactionHash: ""
     };
   },
   mounted() {
@@ -94,16 +109,24 @@ export default {
         throw new Error("Amount required");
       }
 
+      const gasPriceWei = web3.utils.toWei(this.gasPrice, "gwei");
+
       const txParams = {
-        from: this.$store.getters.address,
         to: this.receiverAddress,
-        value: web3.utils.toHex(this.valueWei)
+        value: web3.utils.toHex(this.valueWei),
+        gasPrice: web3.utils.toHex(gasPriceWei),
+        gasLimit: web3.utils.toHex(this.gasLimit)
       };
 
       const tx = new EthTx(txParams, { chain: this.chain });
+      // TODO: Understand why privateKey has to be unwrapped
       tx.sign(this.$store.getters.privateKey.data);
       const serializedTx = tx.serialize();
-      web3.eth.sendSignedTransaction(serializedTx);
+      const receipt = await web3.eth.sendSignedTransaction(
+        `0x${serializedTx.toString("hex")}`
+      );
+
+      this.transactionHash = receipt.transactionHash;
     }
   }
 };
